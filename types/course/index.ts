@@ -1,24 +1,22 @@
-import { IMyDocument } from "..";
-
 export enum ELevel {
   NONE,
   ALL_LEVELS,
   BEGINNER,
   INTERMEDIATE,
-  EXPERT,
+  EXPERT
 }
 
 export enum ELanguage {
   NONE,
   VIETNAMESE,
-  ENGLISH,
+  ENGLISH
 }
 
 export enum EApprovalsStatus {
   NONE,
   ACCEPT,
   DENY,
-  WATTING,
+  WATTING
 }
 
 export enum ECourseStatus {
@@ -26,19 +24,19 @@ export enum ECourseStatus {
   WATTING,
   OPEN,
   CLOSE,
-  FULL_ACCESS,
+  FULL_ACCESS
 }
 
 export type ICourse = {
-  author_id: Schema.Types.ObjectId;
-  detail_id: Schema.Types.ObjectId;
-  course_level: ELevel;
-  course_language: ELanguage;
-  course_name: string;
-  approval_status: EApprovalsStatus;
-  course_fee: number;
-  description: string;
-  course_status: ECourseStatus;
-  fullname: string;
-  detail_name: string;
-} & IMyDocument;
+  author_id: Schema.Types.ObjectId
+  detail_id: Schema.Types.ObjectId
+  course_level: ELevel
+  course_language: ELanguage
+  course_name: string
+  approval_status: EApprovalsStatus
+  course_fee: number
+  description: string
+  course_status: ECourseStatus
+  fullname: string
+  detail_name: string
+}
