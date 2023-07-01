@@ -3,6 +3,7 @@ import { LoadingPopUp } from '@/components/moleculers'
 import store from '@/redux/features/store'
 import { SnackbarProvider } from 'notistack'
 import React, { ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
 
 interface IAppProviderProps {
@@ -21,6 +22,7 @@ const AppProvider: React.FC<IAppProviderProps> = ({ children }) => {
   return (
     <Provider store={store}>
       <div>
+        <Toaster />
         <LoadingPopUp />
         <SnackbarProvider autoHideDuration={3000}>{children}</SnackbarProvider>
       </div>
