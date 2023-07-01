@@ -7,7 +7,7 @@ const Login = ({ methods, handleSubmit }) => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8 relative">
             <div className="bg-white rounded-full shadow-md mb-2 absolute top-0 -translate-x-1/2 left-1/2 -translate-y-2/3">
-              {/* <div className="bg-[url('/logo.png')] w-28 h-28 bg-cover" /> */}
+              <div className="bg-[url('/logo.png')] w-28 h-28 bg-cover" />
             </div>
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
