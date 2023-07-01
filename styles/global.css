@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+@layer base {
+  html {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  div {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  div::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  .bg_admin {
+    background: linear-gradient(112.9deg, #fffae7 0%, rgba(173, 114, 255, 0.716) 100%);
+  }
+  #hamburger:checked ~ div > #bar-mobile {
+    transform: translateX(-100%);
+    transition: all linear 0.1s;
+  }
+
+  #hamburger:not(:checked) ~ div > #bar-mobile {
+    transform: translateX(0);
+    transition: all linear 0.2s;
+  }
+}
