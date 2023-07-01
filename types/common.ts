@@ -7,12 +7,14 @@ export type TMainTypes = {
   updateAt: Date
 }
 export type TSection = {
+  _id: string
   maintype_id: string
   section_name: string
   createAt: Date
   updateAt: Date
 }
 export type TDetails = {
+  _id: string
   section_id: string
   tag_id: string
   detail_name: string
@@ -20,6 +22,7 @@ export type TDetails = {
   updateAt: Date
 }
 export type TTag = {
+  _id: string
   tag_name: string
   createAt: Date
   updateAt: Date
