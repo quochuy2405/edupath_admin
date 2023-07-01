@@ -1,15 +1,14 @@
-import { IFormik } from "~/components/organisms/tag/Add";
-import AxiosServices from "../axiosServices";
-import { ITag } from "~/types/tag";
+import { TTag } from '@/types/common'
+import AxiosServices from '../axiosServices'
 
-export const addTag = (data: IFormik) => {
-  return new AxiosServices().post(`admin/tag/add`, data);
-};
+export const addTag = (data: any) => {
+  return new AxiosServices().post(`admin/tag/add`, data)
+}
 
 export const allTags = () => {
-  return new AxiosServices().get<ITag[]>(`admin/tag/all`);
-};
+  return new AxiosServices().get<TTag[]>(`admin/tag/all`)
+}
 
 export const removeTag = (_id: string) => {
-  return new AxiosServices().delete<ITag>(`admin/tag/remove/${_id}`);
-};
+  return new AxiosServices().delete<TTag>(`admin/tag/remove/${_id}`)
+}

@@ -1,6 +1,5 @@
-import { IUser } from "~/types";
-import AxiosServices from "../axiosServices";
+import AxiosServices from '../axiosServices'
 
 export const allUsers = () => {
-  return new AxiosServices().get<IUser[]>("/admin/user/all");
-};
+  return new AxiosServices().get<any[]>('/admin/user/all')
+}
