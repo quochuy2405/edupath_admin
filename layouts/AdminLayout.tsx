@@ -96,8 +96,8 @@ const AdminLayout = ({ children }) => {
       <LoadingPopUp />
       <input id="hamburger" type="checkbox" className="hidden" />
       <header className="z-10 bg-white border-b-[1px] h-14 min-h-[56px] flex items-center justify-between px-6">
-        <Link href="/admin" className="h-24 w-24 md:block hidden " passHref>
-          <div className="bg-[url('/logo.png')] bg-cover bg-no-repeat w-full h-full" />
+        <Link href="/admin" className="h-24 w-24 md:block hidden p-3 " passHref>
+          <div className="bg-[url('/logo.png')] bg-contain bg-no-repeat w-full h-full" />
         </Link>
 
         <div className="container flex items-center justify-between h-full mx-auto  dark:text-purple-300">
@@ -169,7 +169,7 @@ const AdminLayout = ({ children }) => {
                     className={clsx(
                       'flex items-center w-full text-sm font-medium transition-colors duration-150 hover:text-gray-800 p-2 rounded-md',
                       {
-                        'bg-[#F2F2F2] text-black': pathname === '/admin'
+                        'bg-blue-600 text-white': pathname === '/admin'
                       }
                     )}
                     href="/admin"

@@ -1,7 +1,7 @@
 import { TSection } from '@/types/common'
 import AxiosServices from '../axiosServices'
 
-export const addSection = (data: any) => {
+export const addNewSection = (data: any) => {
   return new AxiosServices().post(`admin/section/add`, data)
 }
 

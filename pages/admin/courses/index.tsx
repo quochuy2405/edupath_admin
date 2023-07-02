@@ -20,6 +20,7 @@ export type StateCourseType = {
   isModal: boolean
   imagePreview: any
   fileImage: any
+  page: number
   options: {
     authorOpts: Array<OptionType>
     detailsOpts: Array<OptionType>
@@ -39,6 +40,7 @@ const CoursePage = () => {
       dataTable: [],
       fileImage: [],
       imagePreview: undefined,
+      page: 1,
       options: {
         authorOpts: [],
         detailsOpts: [],

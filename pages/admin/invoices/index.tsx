@@ -14,6 +14,7 @@ import { allCourses } from 'apis/course'
 export type StateInvoiceType = {
   dataTable: Array<TInvoice>
   isModal: boolean
+  page: number
   options: {
     maintypeOpts: Array<OptionType>
     courseOpts: Array<OptionType>
@@ -26,6 +27,7 @@ const InvoicePage = () => {
     defaultValues: {
       isModal: false,
       dataTable: [],
+      page: 1,
       options: {
         maintypeOpts: [],
         courseOpts: []

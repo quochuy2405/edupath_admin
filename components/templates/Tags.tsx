@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
 import { Table, TextField } from '../atoms'
-import { Modal } from '../moleculers'
+import { Modal, Pagination } from '../moleculers'
 
 interface TagsProps {
   stateStore: UseFormReturn<any, any>
@@ -33,15 +33,7 @@ const Tags: React.FC<TagsProps> = ({ columns, dataForm, stateStore, addTag }) =>
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addTag)}>
                 <div className="flex flex-col gap-3">
                   <Controller
-                    name="code"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField title="Mã thẻ" {...field} errors={fieldState.error} required />
-                    )}
-                  />
-                  <Controller
-                    name="name"
+                    name="tag_name"
                     defaultValue=""
                     control={dataForm.control}
                     render={({ field, fieldState }) => (
@@ -75,14 +67,33 @@ const Tags: React.FC<TagsProps> = ({ columns, dataForm, stateStore, addTag }) =>
           </button>
         </div>
       </div>
-      <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
-        <Controller
-          name="dataTable"
-          control={stateStore.control}
-          defaultValue={[]}
-          render={({ field }) => <Table columns={columns} data={[...field.value]} />}
-        />
-      </div>
+      <Controller
+        name="dataTable"
+        control={stateStore.control}
+        defaultValue={[]}
+        render={({ field }) => (
+          <Controller
+            name="page"
+            control={stateStore.control}
+            defaultValue={1}
+            render={({ field: { value: page, onChange } }) => (
+              <>
+                <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
+                  <Table
+                    columns={columns}
+                    data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                  />
+                </div>
+                <Pagination
+                  pageSize={Math.floor([...field.value].length / 10)}
+                  currentPage={page}
+                  onChange={(p) => onChange(p)}
+                />
+              </>
+            )}
+          />
+        )}
+      />
     </div>
   )
 }

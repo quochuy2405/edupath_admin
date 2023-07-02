@@ -1,7 +1,7 @@
 import { TDetails } from '@/types/common'
 import AxiosServices from '../axiosServices'
 
-export const addDetail = (data: any) => {
+export const addNewDetail = (data: any) => {
   return new AxiosServices().post(`admin/detail/add`, data)
 }
 

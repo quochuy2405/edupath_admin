@@ -1,7 +1,7 @@
 import { TTag } from '@/types/common'
 import AxiosServices from '../axiosServices'
 
-export const addTag = (data: any) => {
+export const addNewTag = (data: any) => {
   return new AxiosServices().post(`admin/tag/add`, data)
 }
 

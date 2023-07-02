@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
 import { Select, Table, TextField } from '../atoms'
-import { Modal } from '../moleculers'
+import { Modal, Pagination } from '../moleculers'
 import { StateSectionType } from '@/pages/admin/sections'
 
 interface SectionsProps {
@@ -55,12 +55,26 @@ const Sections: React.FC<SectionsProps> = ({ columns, dataForm, stateStore, addS
                     )}
                   />
                   <Controller
-                    name="name"
+                    name="section_name"
                     defaultValue=""
                     control={dataForm.control}
                     render={({ field, fieldState }) => (
                       <TextField
                         title="Tên chương trình học"
+                        {...field}
+                        errors={fieldState.error}
+                        required
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="order"
+                    defaultValue=""
+                    control={dataForm.control}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        title="Thứ tự"
+                        type="number"
                         {...field}
                         errors={fieldState.error}
                         required
@@ -94,14 +108,33 @@ const Sections: React.FC<SectionsProps> = ({ columns, dataForm, stateStore, addS
           </button>
         </div>
       </div>
-      <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
-        <Controller
-          name="dataTable"
-          control={stateStore.control}
-          defaultValue={[]}
-          render={({ field }) => <Table columns={columns} data={[...field.value]} />}
-        />
-      </div>
+      <Controller
+        name="dataTable"
+        control={stateStore.control}
+        defaultValue={[]}
+        render={({ field }) => (
+          <Controller
+            name="page"
+            control={stateStore.control}
+            defaultValue={1}
+            render={({ field: { value: page, onChange } }) => (
+              <>
+                <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
+                  <Table
+                    columns={columns}
+                    data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                  />
+                </div>
+                <Pagination
+                  pageSize={Math.floor([...field.value].length / 10)}
+                  currentPage={page}
+                  onChange={(p) => onChange(p)}
+                />
+              </>
+            )}
+          />
+        )}
+      />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { TMainTypes } from '@/types/common'
 import AxiosServices from '../axiosServices'
 
-export const addMaintype = (data: TMainTypes) => {
+export const addNewMaintype = (data: TMainTypes) => {
   return new AxiosServices().post(`admin/maintype/add`, data)
 }
 

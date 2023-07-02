@@ -7,17 +7,8 @@ import Image from 'next/image'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
 import { Select, Table, TextAreaField, TextField } from '../atoms'
-import { Modal } from '../moleculers'
-// author_id: Schema.Types.ObjectId | undefined
-// detail_id: Schema.Types.ObjectId | undefined
-// course_level: ELevel | undefined
-// course_language: ELanguage | undefined
-// course_name: string | undefined
-// approval_status: EApprovalsStatus | undefined
-// course_fee: number | undefined
-// description: string | undefined
-// course_status: ECourseStatus | undefined
-// course_img: File | undefined | undefined
+import { Modal, Pagination } from '../moleculers'
+
 interface CoursesProps {
   stateStore: UseFormReturn<StateCourseType, any>
   dataForm: UseFormReturn<CourseForm, any>
@@ -343,14 +334,34 @@ const Courses: React.FC<CoursesProps> = ({
           </button>
         </div>
       </div>
-      <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
-        <Controller
-          name="dataTable"
-          control={stateStore.control}
-          defaultValue={[]}
-          render={({ field }) => <Table columns={columns} data={[...field.value]} />}
-        />
-      </div>
+
+      <Controller
+        name="dataTable"
+        control={stateStore.control}
+        defaultValue={[]}
+        render={({ field }) => (
+          <Controller
+            name="page"
+            control={stateStore.control}
+            defaultValue={1}
+            render={({ field: { value: page, onChange } }) => (
+              <>
+                <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
+                  <Table
+                    columns={columns}
+                    data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                  />
+                </div>
+                <Pagination
+                  pageSize={Math.floor([...field.value].length / 10)}
+                  currentPage={page}
+                  onChange={(p) => onChange(p)}
+                />
+              </>
+            )}
+          />
+        )}
+      />
     </div>
   )
 }

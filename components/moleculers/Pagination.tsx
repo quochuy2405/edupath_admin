@@ -88,7 +88,7 @@ const Pagination: React.FC<PaginationProps> = ({ pageSize, className, currentPag
             className={clsx(
               'flex cursor-pointer justify-center items-center rounded-md font-bold text-sm bg-gray-100 min-w-[40px] h-10',
               {
-                'bg-yellow-500': num == currentPage,
+                'bg-blue-500 text-white': num == currentPage,
                 'opacity-25': num === '...'
               }
             )}

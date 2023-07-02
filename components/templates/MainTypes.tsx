@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
 import { Table, TextField } from '../atoms'
-import { Modal } from '../moleculers'
+import { Modal, Pagination } from '../moleculers'
 
 interface MainTypesProps {
   stateStore: UseFormReturn<any, any>
@@ -66,14 +66,33 @@ const MainTypes: React.FC<MainTypesProps> = ({ columns, dataForm, stateStore, ad
           </button>
         </div>
       </div>
-      <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
-        <Controller
-          name="dataTable"
-          control={stateStore.control}
-          defaultValue={[]}
-          render={({ field }) => <Table columns={columns} data={[...field.value]} />}
-        />
-      </div>
+      <Controller
+        name="dataTable"
+        control={stateStore.control}
+        defaultValue={[]}
+        render={({ field }) => (
+          <Controller
+            name="page"
+            control={stateStore.control}
+            defaultValue={1}
+            render={({ field: { value: page, onChange } }) => (
+              <>
+                <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
+                  <Table
+                    columns={columns}
+                    data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                  />
+                </div>
+                <Pagination
+                  pageSize={Math.floor([...field.value].length / 10)}
+                  currentPage={page}
+                  onChange={(p) => onChange(p)}
+                />
+              </>
+            )}
+          />
+        )}
+      />
     </div>
   )
 }

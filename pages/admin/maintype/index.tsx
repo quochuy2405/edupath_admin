@@ -5,14 +5,17 @@ import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { schema } from '@/resolvers/maintype'
 import { TMainTypes } from '@/types/common'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { addMaintype, allMaintypes, removeMaintype } from 'apis/maintype'
+import { addNewMaintype, allMaintypes, removeMaintype } from 'apis/maintype'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 
 export type StateMainTypesType = {
   dataTable: Array<TMainTypes>
   isModal: boolean
+  page: 1
 }
 const MainTypesPage = () => {
   const [refresh, setRefresh] = useState(false)
@@ -20,7 +23,8 @@ const MainTypesPage = () => {
   const stateStore = useForm<StateMainTypesType>({
     defaultValues: {
       isModal: false,
-      dataTable: []
+      dataTable: [],
+      page: 1
     }
   })
   const onRefresh = () => {
@@ -33,7 +37,14 @@ const MainTypesPage = () => {
   }
 
   const onDelete = async (id: string) => {
-    await removeMaintype(id)
+    await removeMaintype(id).then(() => {
+      toast(
+        <div className="flex items-center gap-2">
+          <BsFillCheckCircleFill size={14} color="green" />
+          <p className="text-xs text-emerald-400">Đã xóa thành công</p>
+        </div>
+      )
+    })
     onRefresh()
   }
   const columns = columnTableMainType({ onDelete, idDelete, onChangeIdDelete })
@@ -46,7 +57,20 @@ const MainTypesPage = () => {
     stateStore.resetField('isModal')
   }
   const addMainTypes = async (data: TMainTypes) => {
-    await addMaintype(data)
+    await addNewMaintype(data)
+      .then(async () => {
+        toast(
+          <div className="flex items-center gap-2">
+            <BsFillCheckCircleFill size={14} color="green" />
+            <p className="text-xs text-emerald-400">Đã thêm thành công</p>
+          </div>
+        )
+        resetForm()
+        onRefresh()
+      })
+      .catch((e) => {
+        console.log(e)
+      })
     onRefresh()
     resetForm()
   }

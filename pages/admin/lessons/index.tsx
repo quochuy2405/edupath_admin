@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux'
 export type StateLessonsType = {
   dataTable: Array<TLesson>
   isModal: boolean
+  page: number
   options: {
     maintypeOpts: OptionType[]
     courseOpts: OptionType[]
@@ -32,6 +33,7 @@ const LessonsPage = () => {
     defaultValues: {
       isModal: false,
       dataTable: [],
+      page: 1,
       options: {
         maintypeOpts: [],
         courseOpts: [],

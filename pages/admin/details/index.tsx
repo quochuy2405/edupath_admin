@@ -3,7 +3,7 @@ import { Details } from '@/components/templates'
 import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { TDetails } from '@/types/common'
-import { allDetails, removeDetail } from 'apis/detail'
+import { addNewDetail, allDetails, removeDetail } from 'apis/detail'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
@@ -14,6 +14,7 @@ import { allMaintypes } from 'apis/maintype'
 export type StateDetailsType = {
   dataTable: Array<TDetails>
   isModal: boolean
+  page: number
   options: {
     maintypeOpts: Array<OptionType>
     sectionOpts: Array<OptionType>
@@ -27,6 +28,7 @@ const DetailsPage = () => {
     defaultValues: {
       isModal: false,
       dataTable: [],
+      page: 1,
       options: {
         maintypeOpts: [],
         sectionOpts: [],
@@ -52,10 +54,28 @@ const DetailsPage = () => {
     )
     onRefresh()
   }
+
   const columns = columnTableDetails({ onDelete, idDelete, onChangeIdDelete })
   const dataForm = useForm<TDetails>()
-  const addDetail = (data: TDetails) => {
-    console.log(data)
+  const resetForm = () => {
+    dataForm.reset()
+    stateStore.resetField('isModal')
+  }
+  const addDetail = async (data: TDetails) => {
+    await addNewDetail(data)
+      .then(async () => {
+        toast(
+          <div className="flex items-center gap-2">
+            <BsFillCheckCircleFill size={14} color="green" />
+            <p className="text-xs text-emerald-400">Đã thêm thành công</p>
+          </div>
+        )
+        resetForm()
+        onRefresh()
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
   useEffect(() => {
     ;(async () => {

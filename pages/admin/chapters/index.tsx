@@ -3,7 +3,7 @@ import { Chapter } from '@/components/templates'
 import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { TChapter } from '@/types/common'
-import { allChapters, removeChapter } from 'apis/chapter'
+import { addNewChapter, allChapters, removeChapter } from 'apis/chapter'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
@@ -15,6 +15,7 @@ import { allCourses } from 'apis/course'
 export type StateChapterType = {
   dataTable: Array<TChapter>
   isModal: boolean
+  page: number
   options: {
     maintypeOpts: Array<OptionType>
     courseOpts: Array<OptionType>
@@ -27,6 +28,7 @@ const ChapterPage = () => {
     defaultValues: {
       isModal: false,
       dataTable: [],
+      page: 1,
       options: {
         maintypeOpts: [],
         courseOpts: []
@@ -40,7 +42,10 @@ const ChapterPage = () => {
   const onChangeIdDelete = (id: string) => {
     setIdDelete(id)
   }
-
+  const resetForm = () => {
+    dataForm.reset()
+    stateStore.resetField('isModal')
+  }
   const onDelete = async (id: string) => {
     await removeChapter(id)
     toast(
@@ -53,8 +58,21 @@ const ChapterPage = () => {
   }
   const columns = columnTableChapters({ onDelete, idDelete, onChangeIdDelete })
   const dataForm = useForm<TChapter>()
-  const addChapter = (data: TChapter) => {
-    console.log(data)
+  const addChapter = async (data: TChapter) => {
+    await addNewChapter(data)
+      .then(async () => {
+        toast(
+          <div className="flex items-center gap-2">
+            <BsFillCheckCircleFill size={14} color="green" />
+            <p className="text-xs text-emerald-400">Đã thêm thành công</p>
+          </div>
+        )
+        resetForm()
+        onRefresh()
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
   useEffect(() => {
     ;(async () => {

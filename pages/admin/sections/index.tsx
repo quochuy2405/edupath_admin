@@ -3,17 +3,18 @@ import { Sections } from '@/components/templates'
 import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { TSection } from '@/types/common'
-import { allSections, removeSection } from 'apis/section'
-import toast from 'react-hot-toast'
+import { allMaintypes } from 'apis/maintype'
+import { addNewSection, allSections, removeSection } from 'apis/section'
+import { OptionType } from 'common'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
-import { OptionType } from 'common'
-import { allMaintypes } from 'apis/maintype'
+import { useDispatch } from 'react-redux'
 export type StateSectionType = {
   dataTable: Array<TSection>
   isModal: boolean
+  page: number
   options: {
     maintypeOpts: Array<OptionType>
   }
@@ -25,6 +26,7 @@ const SectionPage = () => {
     defaultValues: {
       isModal: false,
       dataTable: [],
+      page: 1,
       options: {
         maintypeOpts: []
       }
@@ -50,8 +52,25 @@ const SectionPage = () => {
   }
   const columns = columnTableSections({ onDelete, idDelete, onChangeIdDelete })
   const dataForm = useForm<TSection>()
-  const addSection = (data: TSection) => {
-    console.log(data)
+  const resetForm = () => {
+    dataForm.reset()
+    stateStore.resetField('isModal')
+  }
+  const addSection = async (data: TSection) => {
+    await addNewSection(data)
+      .then(async () => {
+        toast(
+          <div className="flex items-center gap-2">
+            <BsFillCheckCircleFill size={14} color="green" />
+            <p className="text-xs text-emerald-400">Đã thêm thành công</p>
+          </div>
+        )
+        resetForm()
+        onRefresh()
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
   useEffect(() => {
     ;(async () => {

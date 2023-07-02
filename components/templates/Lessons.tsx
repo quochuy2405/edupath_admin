@@ -7,7 +7,7 @@ import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
 import { RiVideoAddFill } from 'react-icons/ri'
 import { Select, Table, TextField } from '../atoms'
-import { Modal } from '../moleculers'
+import { Modal, Pagination } from '../moleculers'
 interface LessonsProps {
   stateStore: UseFormReturn<StateLessonsType, any>
   dataForm: UseFormReturn<LessonForm, any>
@@ -31,12 +31,12 @@ const Lessons: React.FC<LessonsProps> = ({ columns, dataForm, stateStore, addLes
               }}
               isOpen={field.value}
               title="Tạo bài học mới"
-              size="md"
+              size="xl"
             >
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addLesson)}>
                 <label
                   htmlFor="dropzone-file"
-                  className="flex flex-col mt-6 items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 "
+                  className="flex flex-col mt-6 items-center justify-center w-full h-[200px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 "
                 >
                   <Controller
                     name="lesson_video"
@@ -72,102 +72,104 @@ const Lessons: React.FC<LessonsProps> = ({ columns, dataForm, stateStore, addLes
                     onChange={(event) => upVideo(event.target.files)}
                   />
                 </label>
-                <div className="flex flex-col flex-1 gap-3 items-center">
-                  <Controller
-                    name="options.maintypeOpts"
-                    defaultValue={undefined}
-                    control={stateStore.control}
-                    render={({ field: { value: opts } }) => (
-                      <Controller
-                        name="maintype_id"
-                        defaultValue=""
-                        control={dataForm.control}
-                        render={({ field, fieldState }) => (
-                          <Select
-                            options={opts}
-                            title="Chủ đề"
-                            {...field}
-                            errors={fieldState.error}
-                            required
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="options.courseOpts"
-                    defaultValue={undefined}
-                    control={stateStore.control}
-                    render={({ field: { value: opts } }) => (
-                      <Controller
-                        name="course_id"
-                        defaultValue=""
-                        control={dataForm.control}
-                        render={({ field, fieldState }) => (
-                          <Select
-                            options={opts}
-                            title="Khoá học"
-                            {...field}
-                            errors={fieldState.error}
-                            required
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="options.chapterOpts"
-                    defaultValue={undefined}
-                    control={stateStore.control}
-                    render={({ field: { value: opts } }) => (
-                      <Controller
-                        name="chapter_id"
-                        defaultValue=""
-                        control={dataForm.control}
-                        render={({ field, fieldState }) => (
-                          <Select
-                            options={opts}
-                            title="Chương khoá học"
-                            {...field}
-                            errors={fieldState.error}
-                            required
-                          />
-                        )}
-                      />
-                    )}
-                  />
+                <div className="flex gap-3">
+                  <div className="flex flex-col flex-1 gap-3 items-center">
+                    <Controller
+                      name="options.maintypeOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="maintype_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Chủ đề"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="options.courseOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="course_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Khoá học"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="options.chapterOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="chapter_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Chương khoá học"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="flex flex-col flex-1 gap-3 items-center">
+                    <Controller
+                      name="chapter_name"
+                      defaultValue=""
+                      control={dataForm.control}
+                      render={({ field, fieldState }) => (
+                        <TextField
+                          title="Bài học"
+                          className="w-full"
+                          {...field}
+                          errors={fieldState.error}
+                          required
+                        />
+                      )}
+                    />
 
-                  <Controller
-                    name="chapter_name"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        title="Bài học"
-                        className="w-full"
-                        {...field}
-                        errors={fieldState.error}
-                        required
-                      />
-                    )}
-                  />
-
-                  <Controller
-                    name="order"
-                    defaultValue={undefined}
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField title="Thứ tự" {...field} errors={fieldState.error} required />
-                    )}
-                  />
+                    <Controller
+                      name="order"
+                      defaultValue={undefined}
+                      control={dataForm.control}
+                      render={({ field, fieldState }) => (
+                        <TextField title="Thứ tự" {...field} errors={fieldState.error} required />
+                      )}
+                    />
+                    <button
+                      type="submit"
+                      className="w-full text-white mt-6 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      Tạo
+                    </button>
+                  </div>
                 </div>
-
-                <button
-                  type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                >
-                  Tạo
-                </button>
               </form>
             </Modal>
           )
@@ -187,14 +189,33 @@ const Lessons: React.FC<LessonsProps> = ({ columns, dataForm, stateStore, addLes
           </button>
         </div>
       </div>
-      <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
-        <Controller
-          name="dataTable"
-          control={stateStore.control}
-          defaultValue={[]}
-          render={({ field }) => <Table columns={columns} data={[...field.value]} />}
-        />
-      </div>
+      <Controller
+        name="dataTable"
+        control={stateStore.control}
+        defaultValue={[]}
+        render={({ field }) => (
+          <Controller
+            name="page"
+            control={stateStore.control}
+            defaultValue={1}
+            render={({ field: { value: page, onChange } }) => (
+              <>
+                <div className="flex-1 w-full rounded-lg overflow-x-auto pb-12">
+                  <Table
+                    columns={columns}
+                    data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                  />
+                </div>
+                <Pagination
+                  pageSize={Math.floor([...field.value].length / 10)}
+                  currentPage={page}
+                  onChange={(p) => onChange(p)}
+                />
+              </>
+            )}
+          />
+        )}
+      />
     </div>
   )
 }

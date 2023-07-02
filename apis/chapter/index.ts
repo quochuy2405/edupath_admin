@@ -1,7 +1,7 @@
 import { TChapter } from '@/types/common'
 import AxiosServices from '../axiosServices'
 
-export const addChapter = (data: TChapter) => {
+export const addNewChapter = (data: TChapter) => {
   return new AxiosServices().post(`admin/chapter/add`, data)
 }
 

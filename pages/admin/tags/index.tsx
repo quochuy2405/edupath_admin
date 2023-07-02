@@ -3,7 +3,7 @@ import { Tags } from '@/components/templates'
 import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { TTag } from '@/types/common'
-import { allTags, removeTag } from 'apis/tag'
+import { addNewTag, allTags, removeTag } from 'apis/tag'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 export type StateTagsType = {
   dataTable: Array<TTag>
   isModal: boolean
+  page: number
 }
 const TagsPage = () => {
   const [refresh, setRefresh] = useState(false)
@@ -19,7 +20,8 @@ const TagsPage = () => {
   const stateStore = useForm<StateTagsType>({
     defaultValues: {
       isModal: false,
-      dataTable: []
+      dataTable: [],
+      page: 1
     }
   })
   const onRefresh = () => {
@@ -42,8 +44,26 @@ const TagsPage = () => {
   }
   const columns = columnTableTags({ onDelete, idDelete, onChangeIdDelete })
   const dataForm = useForm<TTag>()
-  const addTag = (data: TTag) => {
-    console.log(data)
+
+  const resetForm = () => {
+    dataForm.reset()
+    stateStore.resetField('isModal')
+  }
+  const addTag = async (data: TTag) => {
+    await addNewTag(data)
+      .then(async () => {
+        toast(
+          <div className="flex items-center gap-2">
+            <BsFillCheckCircleFill size={14} color="green" />
+            <p className="text-xs text-emerald-400">Đã thêm thành công</p>
+          </div>
+        )
+        resetForm()
+        onRefresh()
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
   useEffect(() => {
     ;(async () => {
