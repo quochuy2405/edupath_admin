@@ -49,32 +49,6 @@ interface RevenueProps {
 }
 
 const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
-  const data = {
-    labels: stateStore.getValues('dataChart').map((item) => item.course_name),
-    datasets: [
-      {
-        label: 'Top Khóa học',
-        data: stateStore.getValues('dataChart').map((_, index) => index + 1),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(75, 192, 192, 0.7)',
-          'rgba(153, 102, 255, 0.7)',
-          'rgba(255, 159, 64, 0.7)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }
-    ]
-  }
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto bg-white rounded-lg">
       <div className="flex h-full gap-2 w-full flex-wrap">
@@ -94,6 +68,7 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                       <input
                         id="default-radio-1"
                         type="radio"
+                        readOnly
                         checked={field.value === 'line'}
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
@@ -109,6 +84,7 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                       <input
                         id="default-radio-1"
                         type="radio"
+                        readOnly
                         checked={field.value === 'bar'}
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
@@ -125,6 +101,7 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                       <input
                         id="default-radio-1"
                         type="radio"
+                        readOnly
                         checked={field.value === 'pie'}
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
@@ -134,14 +111,50 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                       </span>
                     </label>
                   </div>
-
-                  {field.value === 'line' && <Line options={options} data={data} />}
-                  {field.value === 'bar' && <Bar options={options} data={data} />}
-                  {field.value === 'pie' && (
-                    <div className="w-[400px] h-[360px] m-auto">
-                      <Pie options={options} data={data} width={100} />
-                    </div>
-                  )}
+                  <Controller
+                    name="dataChart"
+                    control={stateStore.control}
+                    defaultValue={[]}
+                    render={({ field: { value: chart } }) => {
+                      const data = {
+                        labels: chart?.map((item) => item.course_name),
+                        datasets: [
+                          {
+                            label: 'Top Khóa học',
+                            data: chart?.map((_, index) => index + 1),
+                            backgroundColor: [
+                              'rgba(255, 99, 132, 0.7)',
+                              'rgba(54, 162, 235, 0.7)',
+                              'rgba(255, 206, 86, 0.7)',
+                              'rgba(75, 192, 192, 0.7)',
+                              'rgba(153, 102, 255, 0.7)',
+                              'rgba(255, 159, 64, 0.7)'
+                            ],
+                            borderColor: [
+                              'rgba(255, 99, 132, 1)',
+                              'rgba(54, 162, 235, 1)',
+                              'rgba(255, 206, 86, 1)',
+                              'rgba(75, 192, 192, 1)',
+                              'rgba(153, 102, 255, 1)',
+                              'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                          }
+                        ]
+                      }
+                      return (
+                        <>
+                          {field.value === 'line' && <Line options={options} data={data} />}
+                          {field.value === 'bar' && <Bar options={options} data={data} />}
+                          {field.value === 'pie' && (
+                            <div className="w-[400px] h-[360px] m-auto">
+                              <Pie options={options} data={data} width={100} />
+                            </div>
+                          )}
+                        </>
+                      )
+                    }}
+                  />
                 </div>
               )
             }}
