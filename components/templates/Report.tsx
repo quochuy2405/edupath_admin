@@ -36,7 +36,7 @@ export const options = {
     // 	position: "top",
     // },
     title: {
-      display: true,
+      display: false,
       text: 'Chart.js Line Chart'
     }
   }
@@ -121,6 +121,7 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                         datasets: [
                           {
                             label: 'Top Khóa học',
+
                             data: chart?.map((_, index) => index + 1),
                             backgroundColor: [
                               'rgba(255, 99, 132, 0.7)',
