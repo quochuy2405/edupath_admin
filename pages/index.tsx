@@ -21,6 +21,7 @@ const LoginPage = () => {
   })
 
   const handleSubmit = async (data: any) => {
+    console.log(data)
     dispatch(setLoading({ status: true }))
     router.push('/admin')
     debounce(() => dispatch(closeLoading()), 1200, { leading: false })()
