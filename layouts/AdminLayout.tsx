@@ -167,7 +167,7 @@ const AdminLayout = ({ children }) => {
                 <li className="relative py">
                   <Link
                     className={clsx(
-                      'flex items-center w-full text-sm font-medium transition-colors duration-150 hover:text-gray-800 p-2 rounded-md',
+                      'flex items-center w-full text-sm font-medium transition-colors duration-150 p-2 rounded-md',
                       {
                         'bg-blue-600 text-white': pathname === '/admin'
                       }
@@ -214,9 +214,9 @@ const AdminLayout = ({ children }) => {
                   <li className="relative py" key={item.key}>
                     <Link
                       className={clsx(
-                        'flex items-center w-full text-sm font-medium transition-colors duration-150 hover:text-gray-800 p-2 rounded-md',
+                        'flex items-center w-full text-sm font-medium transition-colors duration-150 p-2 rounded-md',
                         {
-                          'bg-blue-600 text-white': pathname === item.key
+                          'bg-blue-600 !text-white': pathname === item.key
                         }
                       )}
                       href={item.key}
