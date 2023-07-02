@@ -4,7 +4,7 @@ import { format, parseISO } from 'date-fns'
 import { CgCheck, CgCloseO } from 'react-icons/cg'
 
 interface ColumnTableProps {
-  onDelete: (id: string) => void
+  onDelete?: (id: string) => void
   idDelete?: string
   onChangeIdDelete?: (id: string) => void
 }

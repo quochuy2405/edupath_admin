@@ -12,8 +12,15 @@ interface DetailsProps {
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
   addDetail: (data: any) => void
+  getSectionsByMainTypeId: (id: string | number) => void
 }
-const Details: React.FC<DetailsProps> = ({ columns, dataForm, stateStore, addDetail }) => {
+const Details: React.FC<DetailsProps> = ({
+  columns,
+  dataForm,
+  stateStore,
+  addDetail,
+  getSectionsByMainTypeId
+}) => {
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <Controller
@@ -46,7 +53,12 @@ const Details: React.FC<DetailsProps> = ({ columns, dataForm, stateStore, addDet
                           <Select
                             options={opts}
                             title="Chủ đề"
-                            {...field}
+                            value={field.value}
+                            onChange={(v) => {
+                              field.onChange(v)
+                              getSectionsByMainTypeId(v)
+                              dataForm.resetField('section_id')
+                            }}
                             errors={fieldState.error}
                             required
                           />

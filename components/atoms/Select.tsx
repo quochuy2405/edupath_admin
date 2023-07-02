@@ -107,7 +107,7 @@ const Select: React.FC<ISelectProps> = forwardRef<HTMLSelectElement, ISelectProp
     const ValueContainer = (props: ValueContainerProps<OptionType>) => {
       const { children } = props
       return (
-        <components.ValueContainer {...props} className="text-xs font-medium">
+        <components.ValueContainer {...props} className="text-[12px] font-normal">
           {children}
         </components.ValueContainer>
       )
@@ -152,8 +152,8 @@ const Select: React.FC<ISelectProps> = forwardRef<HTMLSelectElement, ISelectProp
             }),
             singleValue: (base) => ({
               ...base,
-              color: 'black',
-              fontWeight: '500'
+              color: '#212A3E',
+              fontWeight: '600'
             })
           }}
           components={{

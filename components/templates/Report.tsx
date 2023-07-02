@@ -1,23 +1,29 @@
 'use client'
+import { StateReportType } from '@/pages/admin/reports'
+import { ColumnDef } from '@tanstack/react-table'
 import {
-  Chart as ChartJS,
+  ArcElement,
+  BarElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
-  ArcElement,
   Title,
-  Tooltip,
-  Legend
+  Tooltip
 } from 'chart.js'
-import { Line } from 'react-chartjs-2'
-import { Doughnut } from 'react-chartjs-2'
+import { Bar, Line, Pie } from 'react-chartjs-2'
+import { Controller, UseFormReturn } from 'react-hook-form'
+import { Table } from '../atoms'
+import { Pagination } from '../moleculers'
 
 ChartJS.register(
   ArcElement,
   CategoryScale,
   LinearScale,
   PointElement,
+  BarElement,
   LineElement,
   Title,
   Tooltip,
@@ -62,50 +68,114 @@ const data = {
     }
   ]
 }
+interface RevenueProps {
+  stateStore: UseFormReturn<StateReportType, any>
 
-const Revenue = () => {
+  columns: ColumnDef<any, any>[]
+}
+
+const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="container mx-auto h-full">
-        <div className="-m-1 flex gap-2 flex-wrap md:-m-2 h-full w-full">
-          <div className="flex gap-2 w-full md:w-[48.5%] flex-wrap h-full">
-            {/* <div className=" w-full md:w-[48.5%] p-1 md:p-2 bg-white rounded-lg">
-							<img
-								alt="gallery"
-								className="block h-full w-full rounded-lg object-cover object-center"
-								src="https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp"
-							/>
-						</div>
-						<div className=" w-full md:w-[48.5%] p-1 md:p-2 bg-white rounded-lg">
-							<Line options={options} data={data} />
-						</div> */}
-            <div className="w-full p-1 md:p-2 bg-white rounded-lg relative ">
-              <Doughnut data={data} className="absolute" />
-            </div>
-          </div>
-          <div className="flex gap-2 w-full md:w-1/2 flex-wrap">
-            <div className="w-full p-1 md:p-2 bg-white rounded-lg">
-              <Line options={options} data={data} />
-            </div>
-            <div className=" w-full md:w-[48.5%] p-1 flex flex-col md:p-2 bg-white rounded-lg">
-              <h2 className="font-bold text-sm bg-blue-600 text-white w-fit rounded-lg p-2">
-                TỔNG ĐƠN HÀNG
-              </h2>
-              <div className="flex-1 w-full flex items-center justify-center">
-                <div className="w-28 h-28 m-auto rounded-full flex items-center justify-center p-2 border-2 border-blue-500 text-blue-500 font-bold text-lg">
-                  1000
-                </div>
-              </div>
-            </div>
-            <div className=" w-full md:w-[48.5%] p-1 flex flex-col md:p-2 bg-white rounded-lg">
-              <h2 className="font-bold text-sm bg-red-500 text-white w-fit rounded-lg p-2">
-                TỔNG DOANH THU
-              </h2>
-              <div className="flex-1 w-full flex items-center justify-center">
-                <div className="w-28 h-28 m-auto rounded-full flex items-center justify-center p-2 border-2 border-red-500 text-red-500 font-bold text-lg">
-                  1000
-                </div>
-              </div>
+        <div className="-m-1 flex gap-2 flex-wrap md:-m-2 flex-1 h-full w-full">
+          <div className="flex h-full gap-2 w-full flex-wrap">
+            <div className="w-full h-full bg-white rounded-lg flex items-center p-6">
+              <Controller
+                name="chartType"
+                control={stateStore.control}
+                defaultValue={'line'}
+                render={({ field }) => {
+                  return (
+                    <div className="flex flex-col p-3 h-full flex-[2]">
+                      <div className="flex gap-3">
+                        <label
+                          onClick={() => field.onChange('line')}
+                          className="relative inline-flex items-center mb-5 cursor-pointer"
+                        >
+                          <input
+                            id="default-radio-1"
+                            type="radio"
+                            checked={field.value === 'line'}
+                            name="default-radio"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                          />
+                          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Biều đồ đường
+                          </span>
+                        </label>
+                        <label
+                          onClick={() => field.onChange('bar')}
+                          className="relative inline-flex items-center mb-5 cursor-pointer"
+                        >
+                          <input
+                            id="default-radio-1"
+                            type="radio"
+                            checked={field.value === 'bar'}
+                            name="default-radio"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                          />
+
+                          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Biểu đồ cột
+                          </span>
+                        </label>
+                        <label
+                          onClick={() => field.onChange('pie')}
+                          className="relative inline-flex items-center mb-5 cursor-pointer"
+                        >
+                          <input
+                            id="default-radio-1"
+                            type="radio"
+                            checked={field.value === 'pie'}
+                            name="default-radio"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 "
+                          />
+                          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Biểu đồ tròn
+                          </span>
+                        </label>
+                      </div>
+
+                      {field.value === 'line' && <Line options={options} data={data} />}
+                      {field.value === 'bar' && <Bar options={options} data={data} />}
+                      {field.value === 'pie' && (
+                        <div className="w-[400px] h-[400px] m-auto">
+                          <Pie options={options} data={data} width={100} />
+                        </div>
+                      )}
+                    </div>
+                  )
+                }}
+              />
+
+              <Controller
+                name="dataTable"
+                control={stateStore.control}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <Controller
+                    name="page"
+                    control={stateStore.control}
+                    defaultValue={1}
+                    render={({ field: { value: page, onChange } }) => (
+                      <div className="flex-[3] h-full flex flex-col">
+                        <div className="flex-1 mt-3 w-full rounded-lg overflow-x-auto pb-12">
+                          <Table
+                            columns={columns}
+                            data={[...field.value].slice((page - 1) * 10, page * 10 + 10)}
+                          />
+                        </div>
+                        <Pagination
+                          pageSize={Math.floor([...field.value].length / 10)}
+                          currentPage={page}
+                          onChange={(p) => onChange(p)}
+                        />
+                      </div>
+                    )}
+                  />
+                )}
+              />
             </div>
           </div>
         </div>

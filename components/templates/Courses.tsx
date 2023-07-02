@@ -86,27 +86,6 @@ const Courses: React.FC<CoursesProps> = ({
                       )}
                     />
                     <Controller
-                      name="options.detailsOpts"
-                      defaultValue={undefined}
-                      control={stateStore.control}
-                      render={({ field: { value: opts } }) => (
-                        <Controller
-                          name="detail_id"
-                          defaultValue=""
-                          control={dataForm.control}
-                          render={({ field, fieldState }) => (
-                            <Select
-                              options={opts}
-                              title="Chi tiết khóa học"
-                              {...field}
-                              errors={fieldState.error}
-                              required
-                            />
-                          )}
-                        />
-                      )}
-                    />
-                    <Controller
                       name="options.lessonOpts"
                       defaultValue={undefined}
                       control={stateStore.control}
@@ -127,6 +106,28 @@ const Courses: React.FC<CoursesProps> = ({
                         />
                       )}
                     />
+                    <Controller
+                      name="options.detailsOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="detail_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Chi tiết khóa học"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
+
                     <Controller
                       name="course_level"
                       defaultValue={0}

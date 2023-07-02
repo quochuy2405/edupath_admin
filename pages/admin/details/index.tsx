@@ -4,13 +4,15 @@ import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { TDetails } from '@/types/common'
 import { addNewDetail, allDetails, removeDetail } from 'apis/detail'
+import { allMaintypes } from 'apis/maintype'
+import { getSectionByMainTypeId } from 'apis/section'
+import { allTags } from 'apis/tag'
+import { OptionType } from 'common'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
-import toast from 'react-hot-toast'
-import { OptionType } from 'common'
-import { allMaintypes } from 'apis/maintype'
 export type StateDetailsType = {
   dataTable: Array<TDetails>
   isModal: boolean
@@ -36,6 +38,14 @@ const DetailsPage = () => {
       }
     }
   })
+  const getSectionsByMainTypeId = async (id: string | number) => {
+    await getSectionByMainTypeId(id).then(({ data }) => {
+      if (data) {
+        const options = data.map((item) => ({ label: item.section_name, value: item._id }))
+        stateStore.setValue('options.sectionOpts', options)
+      }
+    })
+  }
   const onRefresh = () => {
     setRefresh((cur) => !cur)
   }
@@ -88,6 +98,14 @@ const DetailsPage = () => {
           }
         })
         .catch((error) => console.log(error))
+      await allTags()
+        .then(({ data }) => {
+          if (data) {
+            const options = data.map((item) => ({ label: item.tag_name, value: item._id }))
+            stateStore.setValue('options.tagOpts', options)
+          }
+        })
+        .catch((error) => console.log(error))
       await allDetails()
         .then(({ data }) => {
           console.log(data)
@@ -102,6 +120,7 @@ const DetailsPage = () => {
     columns,
     stateStore,
     dataForm,
+    getSectionsByMainTypeId,
     addDetail
   }
 
