@@ -10,12 +10,12 @@ const Login = ({ methods, handleSubmit }) => {
               <div className="bg-[url('/logo.png')] w-28 h-28 bg-cover" />
             </div>
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
+              Đăng nhập
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={methods.handleSubmit(handleSubmit)}>
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
-                  Your email
+                  Email
                 </label>
                 <Controller
                   name="email"
@@ -43,7 +43,7 @@ const Login = ({ methods, handleSubmit }) => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Password
+                  Mật khẩu
                 </label>
                 <Controller
                   name="password"
