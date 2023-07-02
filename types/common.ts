@@ -16,8 +16,8 @@ export type TSection = {
 
 export type TInvoice = {
   _id: string
-  user_name: string
-  course_name: string
+  fullname?: string
+  course_name?: string
   total_amount: string
   payment_status: string
   createAt: Date

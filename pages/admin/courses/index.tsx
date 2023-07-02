@@ -148,7 +148,6 @@ const CoursePage = () => {
         .catch((error) => console.log(error))
       await allCourses()
         .then(({ data }) => {
-          console.log(data)
           if (data) stateStore.setValue('dataTable', data)
         })
         .catch((error) => console.log(error))

@@ -70,7 +70,6 @@ const TagsPage = () => {
       dispatch(setLoading({ status: true }))
       await allTags()
         .then(({ data }) => {
-          console.log(data)
           if (data) stateStore.setValue('dataTable', data)
         })
         .catch((error) => console.log(error))

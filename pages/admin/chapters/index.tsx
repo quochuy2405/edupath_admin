@@ -95,7 +95,6 @@ const ChapterPage = () => {
         .catch((error) => console.log(error))
       await allChapters()
         .then(({ data }) => {
-          console.log(data)
           if (data) stateStore.setValue('dataTable', data)
         })
         .catch((error) => console.log(error))

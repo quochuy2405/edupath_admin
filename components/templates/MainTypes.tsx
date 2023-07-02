@@ -84,7 +84,7 @@ const MainTypes: React.FC<MainTypesProps> = ({ columns, dataForm, stateStore, ad
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

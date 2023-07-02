@@ -109,7 +109,6 @@ const LessonsPage = () => {
       dispatch(setLoading({ status: true }))
       await allChapters()
         .then(({ data }) => {
-          console.log(data)
           if (data) {
             const options = data.map((item) => ({
               label: item.chapter_name,
@@ -121,7 +120,6 @@ const LessonsPage = () => {
         .catch((error) => console.log(error))
       await allMaintypes()
         .then(({ data }) => {
-          console.log(data)
           if (data) {
             const options = data.map((item) => ({
               label: item.type_name,
@@ -133,7 +131,6 @@ const LessonsPage = () => {
         .catch((error) => console.log(error))
       await allCourses()
         .then(({ data }) => {
-          console.log(data)
           if (data) {
             const options = data.map((item) => ({
               label: item.course_name,
@@ -145,7 +142,6 @@ const LessonsPage = () => {
         .catch((error) => console.log(error))
       await allLessons()
         .then(({ data }) => {
-          console.log(data)
           if (data) stateStore.setValue('dataTable', data)
         })
         .catch((error) => console.log(error))

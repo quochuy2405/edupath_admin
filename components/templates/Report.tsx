@@ -167,7 +167,7 @@ const Revenue: React.FC<RevenueProps> = ({ columns, stateStore }) => {
                           />
                         </div>
                         <Pagination
-                          pageSize={Math.floor([...field.value].length / 10)}
+                          pageSize={Math.ceil([...field.value].length / 10)}
                           currentPage={page}
                           onChange={(p) => onChange(p)}
                         />

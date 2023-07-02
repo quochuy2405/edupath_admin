@@ -5,21 +5,11 @@ import { StateInvoiceType } from '@/pages/admin/invoices'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { Table } from '../atoms'
 import { Pagination } from '../moleculers'
-// author_id: Schema.Types.ObjectId | undefined
-// detail_id: Schema.Types.ObjectId | undefined
-// course_level: ELevel | undefined
-// course_language: ELanguage | undefined
-// course_name: string | undefined
-// approval_status: EApprovalsStatus | undefined
-// course_fee: number | undefined
-// description: string | undefined
-// course_status: EInvoiceStatus | undefined
-// course_img: File | undefined | undefined
+
 interface InvoicesProps {
   stateStore: UseFormReturn<StateInvoiceType, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
-  addInvoice: (data: any) => void
 }
 const Invoices: React.FC<InvoicesProps> = ({ columns, stateStore }) => {
   return (
@@ -56,7 +46,7 @@ const Invoices: React.FC<InvoicesProps> = ({ columns, stateStore }) => {
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

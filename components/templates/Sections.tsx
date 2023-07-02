@@ -126,7 +126,7 @@ const Sections: React.FC<SectionsProps> = ({ columns, dataForm, stateStore, addS
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

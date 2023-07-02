@@ -207,7 +207,7 @@ const Lessons: React.FC<LessonsProps> = ({ columns, dataForm, stateStore, addLes
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

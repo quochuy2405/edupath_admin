@@ -19,7 +19,6 @@ interface ReviewsProps {
   stateStore: UseFormReturn<StateReviewType, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
-  addReview: (data: any) => void
 }
 const Reviews: React.FC<ReviewsProps> = ({ columns, stateStore }) => {
   return (
@@ -56,7 +55,7 @@ const Reviews: React.FC<ReviewsProps> = ({ columns, stateStore }) => {
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

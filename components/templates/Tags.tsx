@@ -85,7 +85,7 @@ const Tags: React.FC<TagsProps> = ({ columns, dataForm, stateStore, addTag }) =>
                   />
                 </div>
                 <Pagination
-                  pageSize={Math.floor([...field.value].length / 10)}
+                  pageSize={Math.ceil([...field.value].length / 10)}
                   currentPage={page}
                   onChange={(p) => onChange(p)}
                 />

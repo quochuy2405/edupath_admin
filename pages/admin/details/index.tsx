@@ -108,7 +108,6 @@ const DetailsPage = () => {
         .catch((error) => console.log(error))
       await allDetails()
         .then(({ data }) => {
-          console.log(data)
           if (data) stateStore.setValue('dataTable', data)
         })
         .catch((error) => console.log(error))

@@ -667,7 +667,7 @@ export const columnTableInvoices = ({
   return [
     {
       header: 'Người dùng',
-      accessorKey: 'user_name',
+      accessorKey: 'fullname',
       size: 120
     },
     {
@@ -751,15 +751,11 @@ export const columnTableInvoices = ({
   ]
 }
 
-export const columnTableReviews = ({
-  onDelete,
-  idDelete,
-  onChangeIdDelete
-}: ColumnTableProps): ColumnDef<any, any>[] => {
+export const columnTableReviews = ({}: ColumnTableProps): ColumnDef<any, any>[] => {
   return [
     {
       header: 'Người dùng',
-      accessorKey: 'user_name',
+      accessorKey: 'fullname',
       size: 120
     },
     {
@@ -802,43 +798,43 @@ export const columnTableReviews = ({
         const formattedDate = format(parsedDate, 'dd/MM/yyyy HH:mm')
         return formattedDate
       }
-    },
-    {
-      header: 'Công cụ',
-      accessorKey: 'delete',
-      size: 90,
-      cell: ({ row: { original } }) => {
-        if (idDelete === original?._id) {
-          return (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => onChangeIdDelete?.(null)}
-                className="w-8 flex justify-center items-center h-8 text-xs font-medium text-center border border-red-600 text-red-600 rounded-lg focus:ring-4 focus:ring-red-200 "
-              >
-                <CgCloseO size={14} />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onDelete(original?._id)}
-                className="w-8 flex justify-center items-center h-8 text-xs font-medium text-center border border-green-600 text-green-600 rounded-lg focus:ring-4 focus:ring-green-200 "
-              >
-                <CgCheck size={24} />
-              </button>
-            </div>
-          )
-        }
-        return (
-          <button
-            type="button"
-            onClick={() => onChangeIdDelete?.(original?._id)}
-            className="flex-1 items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
-          >
-            Xóa
-          </button>
-        )
-      }
     }
+    // {
+    //   header: 'Công cụ',
+    //   accessorKey: 'delete',
+    //   size: 90,
+    //   cell: ({ row: { original } }) => {
+    //     if (idDelete === original?._id) {
+    //       return (
+    //         <div className="flex items-center gap-2">
+    //           <button
+    //             type="button"
+    //             onClick={() => onChangeIdDelete?.(null)}
+    //             className="w-8 flex justify-center items-center h-8 text-xs font-medium text-center border border-red-600 text-red-600 rounded-lg focus:ring-4 focus:ring-red-200 "
+    //           >
+    //             <CgCloseO size={14} />
+    //           </button>
+
+    //           <button
+    //             type="button"
+    //             onClick={() => onDelete(original?._id)}
+    //             className="w-8 flex justify-center items-center h-8 text-xs font-medium text-center border border-green-600 text-green-600 rounded-lg focus:ring-4 focus:ring-green-200 "
+    //           >
+    //             <CgCheck size={24} />
+    //           </button>
+    //         </div>
+    //       )
+    //     }
+    //     return (
+    //       <button
+    //         type="button"
+    //         onClick={() => onChangeIdDelete?.(original?._id)}
+    //         className="flex-1 items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
+    //       >
+    //         Xóa
+    //       </button>
+    //     )
+    //   }
+    // }
   ]
 }
