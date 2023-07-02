@@ -13,6 +13,25 @@ export type TSection = {
   createAt: Date
   updateAt: Date
 }
+
+export type TInvoice = {
+  _id: string
+  user_name: string
+  course_name: string
+  total_amount: string
+  payment_status: string
+  createAt: Date
+  updateAt: Date
+}
+export type TReview = {
+  _id: string
+  user_name: string
+  course_name: string
+  content: string
+  course_review_star: string
+  createAt: Date
+  updateAt: Date
+}
 export type TDetails = {
   _id: string
   section_id: string
@@ -55,7 +74,7 @@ export type TChapter = {
 export type TLesson = {
   _id: number
   chapterID: number
-  lessonName: string
+  lesson_name: string
   lessonURL: string
   duration: number
   is_active: number

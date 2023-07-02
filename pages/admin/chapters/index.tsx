@@ -9,9 +9,16 @@ import { useForm } from 'react-hook-form'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
+import { OptionType } from 'common'
+import { allMaintypes } from 'apis/maintype'
+import { allCourses } from 'apis/course'
 export type StateChapterType = {
   dataTable: Array<TChapter>
   isModal: boolean
+  options: {
+    maintypeOpts: Array<OptionType>
+    courseOpts: Array<OptionType>
+  }
 }
 const ChapterPage = () => {
   const [refresh, setRefresh] = useState(false)
@@ -19,7 +26,11 @@ const ChapterPage = () => {
   const stateStore = useForm<StateChapterType>({
     defaultValues: {
       isModal: false,
-      dataTable: []
+      dataTable: [],
+      options: {
+        maintypeOpts: [],
+        courseOpts: []
+      }
     }
   })
   const onRefresh = () => {
@@ -48,6 +59,22 @@ const ChapterPage = () => {
   useEffect(() => {
     ;(async () => {
       dispatch(setLoading({ status: true }))
+      await allMaintypes()
+        .then(({ data }) => {
+          if (data) {
+            const options = data.map((item) => ({ label: item.type_name, value: item._id }))
+            stateStore.setValue('options.maintypeOpts', options)
+          }
+        })
+        .catch((error) => console.log(error))
+      await allCourses()
+        .then(({ data }) => {
+          if (data) {
+            const options = data.map((item) => ({ label: item.course_name, value: item._id }))
+            stateStore.setValue('options.courseOpts', options)
+          }
+        })
+        .catch((error) => console.log(error))
       await allChapters()
         .then(({ data }) => {
           console.log(data)

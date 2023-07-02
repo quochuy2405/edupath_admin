@@ -89,7 +89,9 @@ const Table: React.FC<TableProps> = ({ data, columns, className, powerplus, cont
               <th
                 key={header.id}
                 style={{
-                  width: header.column.columnDef.size ? `${header.column.columnDef.size}px` : 'auto'
+                  minWidth: header.column.columnDef.size
+                    ? `${header.column.columnDef.size}px`
+                    : 'auto'
                 }}
                 colSpan={header.colSpan}
                 className={clsx(

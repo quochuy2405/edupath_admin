@@ -1,14 +1,15 @@
 'use client'
 import { ColumnDef } from '@tanstack/react-table'
 
+import { StateChapterType } from '@/pages/admin/chapters'
 import { TChapter } from '@/types/common'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
-import { Table, TextField } from '../atoms'
+import { Select, Table, TextField } from '../atoms'
 import { Modal } from '../moleculers'
 
 interface ChapterProps {
-  stateStore: UseFormReturn<any, any>
+  stateStore: UseFormReturn<StateChapterType, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
   addChapter: (data: TChapter) => void
@@ -34,15 +35,44 @@ const Chapter: React.FC<ChapterProps> = ({ columns, dataForm, stateStore, addCha
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addChapter)}>
                 <div className="flex flex-col gap-3">
                   <Controller
-                    name="code"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        title="Mã chương khóa học"
-                        {...field}
-                        errors={fieldState.error}
-                        required
+                    name="options.maintypeOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="maintype_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Chủ đề"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="options.courseOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="course_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Khoá học"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
                       />
                     )}
                   />
@@ -53,6 +83,20 @@ const Chapter: React.FC<ChapterProps> = ({ columns, dataForm, stateStore, addCha
                     render={({ field, fieldState }) => (
                       <TextField
                         title="Tên chương khóa học"
+                        {...field}
+                        errors={fieldState.error}
+                        required
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="order"
+                    defaultValue=""
+                    control={dataForm.control}
+                    render={({ field, fieldState }) => (
+                      <TextField
+                        title="Thứ tự"
+                        type="number"
                         {...field}
                         errors={fieldState.error}
                         required

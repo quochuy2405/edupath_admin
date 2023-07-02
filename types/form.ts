@@ -9,4 +9,6 @@ export type CourseForm = {
   description: string | undefined
   course_status: number | undefined
   course_img: File | undefined | undefined
+  maintype_id?: string
+  lesson_id?: string
 }

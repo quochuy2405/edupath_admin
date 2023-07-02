@@ -6,6 +6,7 @@ import { TCourse } from '@/types/common'
 import { CourseForm } from '@/types/form'
 import { addNewCourse, allCourses, removeCourse } from 'apis/course'
 import { allDetails } from 'apis/detail'
+import { allLessons } from 'apis/lesson'
 import { allUsers } from 'apis/user'
 import { OptionType } from 'common'
 import { ReactElement, useEffect, useState } from 'react'
@@ -25,6 +26,8 @@ export type StateCourseType = {
     levelOpts: Array<OptionType>
     actStatusOpts: Array<OptionType>
     courseStatusOpts: Array<OptionType>
+    maintypeOpts: Array<OptionType>
+    lessonOpts: Array<OptionType>
   }
 }
 const CoursePage = () => {
@@ -41,7 +44,9 @@ const CoursePage = () => {
         detailsOpts: [],
         levelOpts: [],
         actStatusOpts: [],
-        courseStatusOpts: []
+        courseStatusOpts: [],
+        maintypeOpts: [],
+        lessonOpts: []
       }
     }
   })
@@ -128,6 +133,14 @@ const CoursePage = () => {
           if (data) {
             const options = data.map((item) => ({ label: item.fullname, value: item._id }))
             stateStore.setValue('options.authorOpts', options)
+          }
+        })
+        .catch((error) => console.log(error))
+      await allLessons()
+        .then(({ data }) => {
+          if (data) {
+            const options = data.map((item) => ({ label: item.lesson_name, value: item._id }))
+            stateStore.setValue('options.lessonOpts', options)
           }
         })
         .catch((error) => console.log(error))

@@ -53,6 +53,20 @@ const TABS = [
     title: 'Chi tiết lộ trình'
   },
   {
+    key: '/admin/invoices',
+    icon: (active) => (
+      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+    ),
+    title: 'Hoá đơn '
+  },
+  {
+    key: '/admin/reviews',
+    icon: (active) => (
+      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+    ),
+    title: 'Đánh giá'
+  },
+  {
     key: '/admin/tags',
     icon: (active) => (
       <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />

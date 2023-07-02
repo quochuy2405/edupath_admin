@@ -1,13 +1,14 @@
 'use client'
 import { ColumnDef } from '@tanstack/react-table'
 
+import { StateDetailsType } from '@/pages/admin/details'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
-import { Table, TextField } from '../atoms'
+import { Select, Table, TextField } from '../atoms'
 import { Modal } from '../moleculers'
 
 interface DetailsProps {
-  stateStore: UseFormReturn<any, any>
+  stateStore: UseFormReturn<StateDetailsType, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
   addDetail: (data: any) => void
@@ -33,25 +34,75 @@ const Details: React.FC<DetailsProps> = ({ columns, dataForm, stateStore, addDet
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addDetail)}>
                 <div className="flex flex-col gap-3">
                   <Controller
-                    name="code"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        title="Mã chi tiết lộ trình"
-                        {...field}
-                        errors={fieldState.error}
-                        required
+                    name="options.maintypeOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="maintype_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Chủ đề"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
                       />
                     )}
                   />
                   <Controller
-                    name="name"
+                    name="options.sectionOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="section_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Tên chương trình học"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="options.tagOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="tag_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Tag"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="detail_name"
                     defaultValue=""
                     control={dataForm.control}
                     render={({ field, fieldState }) => (
                       <TextField
-                        title="Tên chi tiết lộ trình"
+                        title="Tên lộ trình"
                         {...field}
                         errors={fieldState.error}
                         required

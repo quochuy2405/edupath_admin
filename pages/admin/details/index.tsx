@@ -9,9 +9,16 @@ import { useForm } from 'react-hook-form'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
+import { OptionType } from 'common'
+import { allMaintypes } from 'apis/maintype'
 export type StateDetailsType = {
   dataTable: Array<TDetails>
   isModal: boolean
+  options: {
+    maintypeOpts: Array<OptionType>
+    sectionOpts: Array<OptionType>
+    tagOpts: Array<OptionType>
+  }
 }
 const DetailsPage = () => {
   const [refresh, setRefresh] = useState(false)
@@ -19,7 +26,12 @@ const DetailsPage = () => {
   const stateStore = useForm<StateDetailsType>({
     defaultValues: {
       isModal: false,
-      dataTable: []
+      dataTable: [],
+      options: {
+        maintypeOpts: [],
+        sectionOpts: [],
+        tagOpts: []
+      }
     }
   })
   const onRefresh = () => {
@@ -48,6 +60,14 @@ const DetailsPage = () => {
   useEffect(() => {
     ;(async () => {
       dispatch(setLoading({ status: true }))
+      await allMaintypes()
+        .then(({ data }) => {
+          if (data) {
+            const options = data.map((item) => ({ label: item.type_name, value: item._id }))
+            stateStore.setValue('options.maintypeOpts', options)
+          }
+        })
+        .catch((error) => console.log(error))
       await allDetails()
         .then(({ data }) => {
           console.log(data)

@@ -3,11 +3,12 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { MdAddCircle } from 'react-icons/md'
-import { Table, TextField } from '../atoms'
+import { Select, Table, TextField } from '../atoms'
 import { Modal } from '../moleculers'
+import { StateSectionType } from '@/pages/admin/sections'
 
 interface SectionsProps {
-  stateStore: UseFormReturn<any, any>
+  stateStore: UseFormReturn<StateSectionType, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
   addSection: (data: any) => void
@@ -33,15 +34,23 @@ const Sections: React.FC<SectionsProps> = ({ columns, dataForm, stateStore, addS
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addSection)}>
                 <div className="flex flex-col gap-3">
                   <Controller
-                    name="code"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        title="Mã chương trình học"
-                        {...field}
-                        errors={fieldState.error}
-                        required
+                    name="options.maintypeOpts"
+                    defaultValue={undefined}
+                    control={stateStore.control}
+                    render={({ field: { value: opts } }) => (
+                      <Controller
+                        name="maintype_id"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <Select
+                            options={opts}
+                            title="Chủ đề"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
                       />
                     )}
                   />

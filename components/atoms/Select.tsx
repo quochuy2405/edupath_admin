@@ -12,7 +12,7 @@ import ReactSelect, {
   components
 } from 'react-select'
 export type OptionType = {
-  label: string
+  label: string | number
   value: string | number
 }
 export interface ISelectProps {

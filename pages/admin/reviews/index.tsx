@@ -1,32 +1,34 @@
-import { columnTableSections } from '@/components/makecolumns'
-import { Sections } from '@/components/templates'
+import { columnTableReviews } from '@/components/makecolumns'
+import { Review } from '@/components/templates'
 import AdminLayout from '@/layouts/AdminLayout'
 import { closeLoading, setLoading } from '@/redux/features/slices/loading'
-import { TSection } from '@/types/common'
-import { allSections, removeSection } from 'apis/section'
-import toast from 'react-hot-toast'
+import { TReview } from '@/types/common'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
 import { OptionType } from 'common'
 import { allMaintypes } from 'apis/maintype'
-export type StateSectionType = {
-  dataTable: Array<TSection>
+import { allCourses } from 'apis/course'
+export type StateReviewType = {
+  dataTable: Array<TReview>
   isModal: boolean
   options: {
     maintypeOpts: Array<OptionType>
+    courseOpts: Array<OptionType>
   }
 }
-const SectionPage = () => {
+const ReviewPage = () => {
   const [refresh, setRefresh] = useState(false)
   const dispatch = useDispatch()
-  const stateStore = useForm<StateSectionType>({
+  const stateStore = useForm<StateReviewType>({
     defaultValues: {
       isModal: false,
       dataTable: [],
       options: {
-        maintypeOpts: []
+        maintypeOpts: [],
+        courseOpts: []
       }
     }
   })
@@ -39,7 +41,8 @@ const SectionPage = () => {
   }
 
   const onDelete = async (id: string) => {
-    await removeSection(id)
+    // await removeReview(id)
+    console.log(id)
     toast(
       <div className="flex items-center gap-2">
         <BsFillCheckCircleFill size={14} color="green" />
@@ -48,9 +51,9 @@ const SectionPage = () => {
     )
     onRefresh()
   }
-  const columns = columnTableSections({ onDelete, idDelete, onChangeIdDelete })
-  const dataForm = useForm<TSection>()
-  const addSection = (data: TSection) => {
+  const columns = columnTableReviews({ onDelete, idDelete, onChangeIdDelete })
+  const dataForm = useForm<TReview>()
+  const addReview = (data: TReview) => {
     console.log(data)
   }
   useEffect(() => {
@@ -64,12 +67,20 @@ const SectionPage = () => {
           }
         })
         .catch((error) => console.log(error))
-      await allSections()
+      await allCourses()
         .then(({ data }) => {
-          console.log(data)
-          if (data) stateStore.setValue('dataTable', data)
+          if (data) {
+            const options = data.map((item) => ({ label: item.course_name, value: item._id }))
+            stateStore.setValue('options.courseOpts', options)
+          }
         })
         .catch((error) => console.log(error))
+      // await allReviews()
+      //   .then(({ data }) => {
+      //     console.log(data)
+      //     if (data) stateStore.setValue('dataTable', data)
+      //   })
+      //   .catch((error) => console.log(error))
       dispatch(closeLoading())
     })()
   }, [refresh])
@@ -78,12 +89,12 @@ const SectionPage = () => {
     columns,
     stateStore,
     dataForm,
-    addSection
+    addReview
   }
 
-  return <Sections {...props} />
+  return <Review {...props} />
 }
-SectionPage.getLayout = function getLayout(page: ReactElement) {
+ReviewPage.getLayout = function getLayout(page: ReactElement) {
   return <AdminLayout>{page}</AdminLayout>
 }
-export default SectionPage
+export default ReviewPage

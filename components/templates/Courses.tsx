@@ -47,7 +47,7 @@ const Courses: React.FC<CoursesProps> = ({
               }}
               isOpen={field.value}
               title="Tạo khóa học mới"
-              size="xl"
+              size="3xl"
             >
               <form className="space-y-6" onSubmit={dataForm.handleSubmit(addCourse)}>
                 <div className="flex gap-3">
@@ -65,6 +65,27 @@ const Courses: React.FC<CoursesProps> = ({
                             <Select
                               options={opts}
                               title="Tác giả"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="options.maintypeOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="maintype_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Chủ đề"
                               {...field}
                               errors={fieldState.error}
                               required
@@ -94,7 +115,27 @@ const Courses: React.FC<CoursesProps> = ({
                         />
                       )}
                     />
-
+                    <Controller
+                      name="options.lessonOpts"
+                      defaultValue={undefined}
+                      control={stateStore.control}
+                      render={({ field: { value: opts } }) => (
+                        <Controller
+                          name="lesson_id"
+                          defaultValue=""
+                          control={dataForm.control}
+                          render={({ field, fieldState }) => (
+                            <Select
+                              options={opts}
+                              title="Chương trình học"
+                              {...field}
+                              errors={fieldState.error}
+                              required
+                            />
+                          )}
+                        />
+                      )}
+                    />
                     <Controller
                       name="course_level"
                       defaultValue={0}
@@ -115,6 +156,8 @@ const Courses: React.FC<CoursesProps> = ({
                         />
                       )}
                     />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-3">
                     <Controller
                       name="course_name"
                       defaultValue=""
@@ -147,7 +190,6 @@ const Courses: React.FC<CoursesProps> = ({
                         />
                       )}
                     />
-
                     <Controller
                       name="course_language"
                       defaultValue={0}
@@ -173,6 +215,26 @@ const Courses: React.FC<CoursesProps> = ({
                       render={({ field, fieldState }) => (
                         <TextField
                           title="Học phí khóa học"
+                          {...field}
+                          errors={fieldState.error}
+                          required
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="course_status"
+                      defaultValue={0}
+                      control={dataForm.control}
+                      render={({ field, fieldState }) => (
+                        <Select
+                          options={[
+                            { value: 0, label: 'NONE' },
+                            { value: 1, label: 'WATTING' },
+                            { value: 2, label: 'OPEN' },
+                            { value: 3, label: 'CLOSE' },
+                            { value: 4, label: 'FULL_ACCESS' }
+                          ]}
+                          title="Tình trạng khóa học"
                           {...field}
                           errors={fieldState.error}
                           required
@@ -248,26 +310,6 @@ const Courses: React.FC<CoursesProps> = ({
                           title="Mô tả khóa học"
                           {...field}
                           rows={4}
-                          errors={fieldState.error}
-                          required
-                        />
-                      )}
-                    />
-                    <Controller
-                      name="course_status"
-                      defaultValue={0}
-                      control={dataForm.control}
-                      render={({ field, fieldState }) => (
-                        <Select
-                          options={[
-                            { value: 0, label: 'NONE' },
-                            { value: 1, label: 'WATTING' },
-                            { value: 2, label: 'OPEN' },
-                            { value: 3, label: 'CLOSE' },
-                            { value: 4, label: 'FULL_ACCESS' }
-                          ]}
-                          title="Tình trạng khóa học"
-                          {...field}
                           errors={fieldState.error}
                           required
                         />
