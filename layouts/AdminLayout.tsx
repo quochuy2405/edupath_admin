@@ -3,74 +3,79 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MdInventory } from 'react-icons/md'
 
 import { LoadingPopUp } from '@/components/moleculers'
 import { RootState } from '@/redux/features/store'
+import {
+  FaBookOpen,
+  FaBookmark,
+  FaChartLine,
+  FaNetworkWired,
+  FaNewspaper,
+  FaProjectDiagram,
+  FaReceipt,
+  FaStar,
+  FaTable,
+  FaTags
+} from 'react-icons/fa'
 import { HiHome } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 const TABS = [
   {
     key: '/admin/maintype',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaBookOpen size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Chủ đề'
   },
   {
     key: '/admin/courses',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaNewspaper size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Khoá học'
   },
   {
     key: '/admin/chapters',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaBookmark size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Chương khoá học'
   },
   {
     key: '/admin/lessons',
-    icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
-    ),
+    icon: (active) => <FaTable size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />,
     title: 'Bài học'
   },
   {
     key: '/admin/sections',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaNetworkWired size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Chương trình học'
   },
   {
     key: '/admin/details',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaProjectDiagram size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Chi tiết lộ trình'
   },
   {
     key: '/admin/invoices',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaReceipt size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Hoá đơn '
   },
   {
     key: '/admin/reviews',
-    icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
-    ),
+    icon: (active) => <FaStar size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />,
     title: 'Đánh giá'
   },
   {
     key: '/admin/tags',
-    icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
-    ),
+    icon: (active) => <FaTags size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />,
     title: 'Tag'
   }
 ]
@@ -78,7 +83,7 @@ const REPORTS = [
   {
     key: '/admin/reports',
     icon: (active) => (
-      <MdInventory size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
+      <FaChartLine size={20} color={active ? 'white' : 'black'} className="w-5 h-5" />
     ),
     title: 'Báo cáo/ Báo biểu'
   }

@@ -3,7 +3,10 @@
 const DashBoard = () => {
   return (
     <div className="flex flex-col h-full">
-      <div className="container mx-auto h-full">
+      <h2 className="font-bold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-blue-400 to-black uppercase">
+        Chào mừng bạn đến với ADMIN EDUPATH
+      </h2>
+      {/* <div className="container mx-auto h-full">
         <div className="flex gap-2 flex-wrap h-full w-full">
           <div className="flex gap-2 w-full md:w-[48.5%] flex-wrap h-full">
             <div className=" w-full md:w-[48.5%] p-1 md:p-2 bg-white rounded-lg">
@@ -52,7 +55,7 @@ const DashBoard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
