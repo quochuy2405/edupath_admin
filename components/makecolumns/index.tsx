@@ -1,5 +1,7 @@
 import { ELanguage, ELevel } from '@/types/course'
 import { ColumnDef } from '@tanstack/react-table'
+import { confirmInvoice } from 'apis/payment'
+import clsx from 'clsx'
 import { format, parseISO } from 'date-fns'
 import { CgCheck, CgCloseO } from 'react-icons/cg'
 
@@ -7,6 +9,7 @@ interface ColumnTableProps {
   onDelete?: (id: string) => void
   idDelete?: string
   onChangeIdDelete?: (id: string) => void
+  onRefresh?: () => void
 }
 
 export const columnTableChapters = ({
@@ -662,7 +665,8 @@ export const columnTableTags = ({
 export const columnTableInvoices = ({
   onDelete,
   idDelete,
-  onChangeIdDelete
+  onChangeIdDelete,
+  onRefresh
 }: ColumnTableProps): ColumnDef<any, any>[] => {
   return [
     {
@@ -709,6 +713,57 @@ export const columnTableInvoices = ({
 
         const formattedDate = format(parsedDate, 'dd/MM/yyyy HH:mm')
         return formattedDate
+      }
+    },
+    {
+      header: 'Trạng thái',
+      accessorKey: 'payment_status',
+      size: 110,
+      cell: (info) => {
+        const STATUS = {
+          0: 'UNPAID',
+          1: 'PAID',
+          2: 'PENDING'
+        }
+        return (
+          <div className="flex gap-2 justify-center">
+            <p
+              className={clsx('px-4 py-[1.4px] text-[10px] font-semibold text-white rounded-md', {
+                'bg-green-400': info.getValue() === 1,
+                'bg-orange-400': info.getValue() === 2,
+                'bg-red-600': info.getValue() === 0
+              })}
+            >
+              {STATUS[info.getValue()]}
+            </p>
+          </div>
+        )
+      }
+    },
+    {
+      header: 'Thanh toán',
+      accessorKey: 'payment_status',
+      size: 110,
+      cell: (info) => {
+        const {
+          row: { original }
+        } = info
+        const id = original._id
+
+        const handleToggleStatusCharge = async (status: boolean) => {
+          await confirmInvoice(id, status)
+            .then(() => onRefresh())
+            .catch((e) => console.log(e))
+        }
+
+        return (
+          <button
+            onClick={() => handleToggleStatusCharge(info?.getValue()?.toString() !== '1')}
+            className="w-fit flex justify-center items-center px-4 py-2 text-xs font-medium text-center bg-blue-600 text-white disabled:opacity-30 rounded-lg focus:ring-4 focus:ring-blue-200 "
+          >
+            {info?.getValue()?.toString() !== '1' ? 'Xác nhận' : 'Hủy xác nhận'}
+          </button>
+        )
       }
     },
     {

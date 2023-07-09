@@ -44,7 +44,7 @@ const InvoicePage = () => {
 
     onRefresh()
   }
-  const columns = columnTableInvoices({ onDelete, idDelete, onChangeIdDelete })
+  const columns = columnTableInvoices({ onDelete, idDelete, onChangeIdDelete, onRefresh })
   const dataForm = useForm<TInvoice>()
 
   useEffect(() => {
