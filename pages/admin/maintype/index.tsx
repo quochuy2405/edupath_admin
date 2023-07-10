@@ -90,8 +90,6 @@ const MainTypesPage = () => {
       .catch((e) => {
         console.log(e)
       })
-    onRefresh()
-    resetForm()
   }
   useEffect(() => {
     ;(async () => {
