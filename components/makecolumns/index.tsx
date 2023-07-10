@@ -7,6 +7,7 @@ import { CgCheck, CgCloseO } from 'react-icons/cg'
 
 interface ColumnTableProps {
   onDelete?: (id: string) => void
+  onModelUpdate?: (data: any) => void
   idDelete?: string
   onChangeIdDelete?: (id: string) => void
   onRefresh?: () => void
@@ -102,7 +103,8 @@ export const columnTableChapters = ({
 export const columnTableMainType = ({
   onDelete,
   idDelete,
-  onChangeIdDelete
+  onChangeIdDelete,
+  onModelUpdate
 }: ColumnTableProps): ColumnDef<any, any>[] => {
   return [
     {
@@ -163,13 +165,27 @@ export const columnTableMainType = ({
           )
         }
         return (
-          <button
-            type="button"
-            onClick={() => onChangeIdDelete?.(original?._id)}
-            className="flex-1 items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
-          >
-            Xóa
-          </button>
+          <div className="flex gap-1 items-center m-auto">
+            <button
+              type="button"
+              onClick={() => onChangeIdDelete?.(original?._id)}
+              className="items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
+            >
+              Xóa
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                onModelUpdate?.({
+                  _id: original?._id,
+                  type_name: original?.type_name
+                })
+              }
+              className="h-8 items-center px-4 text-xs font-medium text-center border-blue-600 border text-blue-600 rounded-lg focus:ring-4 focus:ring-blue-200"
+            >
+              Sửa
+            </button>
+          </div>
         )
       }
     }
@@ -682,12 +698,8 @@ export const columnTableInvoices = ({
     {
       header: 'Số tiền',
       accessorKey: 'total_amount',
-      size: 120
-    },
-    {
-      header: 'Trang thái thanh toán',
-      accessorKey: 'payment_status',
-      size: 120
+      size: 120,
+      cell: (v) => Number(v.getValue()).toLocaleString()
     },
     {
       header: 'Thời gian tạo',
@@ -769,7 +781,7 @@ export const columnTableInvoices = ({
     {
       header: 'Công cụ',
       accessorKey: 'delete',
-      size: 90,
+      size: 180,
       cell: ({ row: { original } }) => {
         if (idDelete === original?._id) {
           return (
@@ -793,13 +805,15 @@ export const columnTableInvoices = ({
           )
         }
         return (
-          <button
-            type="button"
-            onClick={() => onChangeIdDelete?.(original?._id)}
-            className="flex-1 items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
-          >
-            Xóa
-          </button>
+          <div className="flex gap-2 m-auto">
+            <button
+              type="button"
+              onClick={() => onChangeIdDelete?.(original?._id)}
+              className="h-8 items-center px-4 text-xs font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 hover:bg-red-700"
+            >
+              Xóa
+            </button>
+          </div>
         )
       }
     }

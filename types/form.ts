@@ -12,3 +12,5 @@ export type CourseForm = {
   maintype_id?: string
   lesson_id?: string
 }
+
+export type MainTypeEditForm = { maintype_id: string; type_name: string }

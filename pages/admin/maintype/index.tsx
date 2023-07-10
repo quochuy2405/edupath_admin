@@ -5,7 +5,7 @@ import { closeLoading, setLoading } from '@/redux/features/slices/loading'
 import { schema } from '@/resolvers/maintype'
 import { TMainTypes } from '@/types/common'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { addNewMaintype, allMaintypes, removeMaintype } from 'apis/maintype'
+import { addNewMaintype, allMaintypes, editMaintype, removeMaintype } from 'apis/maintype'
 import { ReactElement, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 export type StateMainTypesType = {
   dataTable: Array<TMainTypes>
   isModal: boolean
+  editData: any
   page: 1
 }
 const MainTypesPage = () => {
@@ -35,6 +36,24 @@ const MainTypesPage = () => {
   const onChangeIdDelete = (id: string) => {
     setIdDelete(id)
   }
+  const onModelUpdate = async (data: TMainTypes) => {
+    stateStore.setValue('isModal', true)
+    stateStore.setValue('editData', data)
+    dataForm.setValue('type_name', data.type_name)
+    dataForm.setValue('_id', data._id)
+  }
+  const updateMainType = async (data: TMainTypes) => {
+    await editMaintype(data).then(() => {
+      toast(
+        <div className="flex items-center gap-2">
+          <BsFillCheckCircleFill size={14} color="green" />
+          <p className="text-xs text-emerald-400">Đã cập nhật</p>
+        </div>
+      )
+      resetForm()
+      onRefresh()
+    })
+  }
 
   const onDelete = async (id: string) => {
     await removeMaintype(id).then(() => {
@@ -47,7 +66,7 @@ const MainTypesPage = () => {
     })
     onRefresh()
   }
-  const columns = columnTableMainType({ onDelete, idDelete, onChangeIdDelete })
+  const columns = columnTableMainType({ onDelete, idDelete, onChangeIdDelete, onModelUpdate })
 
   const dataForm = useForm<TMainTypes>({
     resolver: yupResolver(schema)
@@ -56,7 +75,7 @@ const MainTypesPage = () => {
     dataForm.reset()
     stateStore.resetField('isModal')
   }
-  const addMainTypes = async (data: TMainTypes) => {
+  const addMainType = async (data: TMainTypes) => {
     await addNewMaintype(data)
       .then(async () => {
         toast(
@@ -90,7 +109,8 @@ const MainTypesPage = () => {
     columns,
     stateStore,
     dataForm,
-    addMainTypes
+    addMainType,
+    updateMainType
   }
 
   return <MainTypes {...props} />

@@ -9,9 +9,16 @@ interface MainTypesProps {
   stateStore: UseFormReturn<any, any>
   dataForm: UseFormReturn<any, any>
   columns: ColumnDef<any, any>[]
-  addMainTypes: (data: any) => void
+  addMainType: (data: any) => void
+  updateMainType: (data: any) => void
 }
-const MainTypes: React.FC<MainTypesProps> = ({ columns, dataForm, stateStore, addMainTypes }) => {
+const MainTypes: React.FC<MainTypesProps> = ({
+  columns,
+  dataForm,
+  stateStore,
+  addMainType,
+  updateMainType
+}) => {
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <Controller
@@ -20,35 +27,58 @@ const MainTypes: React.FC<MainTypesProps> = ({ columns, dataForm, stateStore, ad
         control={stateStore.control}
         render={({ field }) => {
           return (
-            <Modal
-              handleClose={() => {
-                field.onChange(false)
-                dataForm.reset()
-              }}
-              isOpen={field.value}
-              title="Tạo chủ đề mới"
-              size="md"
-            >
-              <form className="space-y-6" onSubmit={dataForm.handleSubmit(addMainTypes)}>
-                <div className="flex flex-col gap-3">
-                  <Controller
-                    name="type_name"
-                    defaultValue=""
-                    control={dataForm.control}
-                    render={({ field, fieldState }) => (
-                      <TextField title="Tên chủ đề" {...field} errors={fieldState.error} required />
-                    )}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            <Controller
+              name="editData"
+              control={stateStore.control}
+              defaultValue={null}
+              render={({ field: { value: editData } }) => (
+                <Modal
+                  handleClose={() => {
+                    field.onChange(false)
+                    dataForm.reset()
+                    stateStore.setValue('editData', null)
+                  }}
+                  isOpen={field.value}
+                  title={editData?._id ? 'Chỉnh sửa chủ đề' : 'Tạo chủ đề mới'}
+                  size="md"
                 >
-                  Tạo
-                </button>
-              </form>
-            </Modal>
+                  <form
+                    className="space-y-6"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      if (editData?._id) {
+                        dataForm.handleSubmit(updateMainType)()
+                      } else {
+                        dataForm.handleSubmit(addMainType)()
+                      }
+                    }}
+                  >
+                    <div className="flex flex-col gap-3">
+                      <Controller
+                        name="type_name"
+                        defaultValue=""
+                        control={dataForm.control}
+                        render={({ field, fieldState }) => (
+                          <TextField
+                            title="Tên chủ đề"
+                            {...field}
+                            errors={fieldState.error}
+                            required
+                          />
+                        )}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                      {editData?._id ? 'Cập nhật' : 'Tạo'}
+                    </button>
+                  </form>
+                </Modal>
+              )}
+            />
           )
         }}
       />

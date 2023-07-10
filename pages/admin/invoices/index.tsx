@@ -12,14 +12,17 @@ import { useDispatch } from 'react-redux'
 export type StateInvoiceType = {
   dataTable: Array<TInvoice>
   isModal: boolean
+  editId: string
   page: number
 }
 const InvoicePage = () => {
   const [refresh, setRefresh] = useState(false)
   const dispatch = useDispatch()
+
   const stateStore = useForm<StateInvoiceType>({
     defaultValues: {
       isModal: false,
+      editId: null,
       dataTable: [],
       page: 1
     }
@@ -44,8 +47,8 @@ const InvoicePage = () => {
 
     onRefresh()
   }
+
   const columns = columnTableInvoices({ onDelete, idDelete, onChangeIdDelete, onRefresh })
-  const dataForm = useForm<TInvoice>()
 
   useEffect(() => {
     ;(async () => {
@@ -53,7 +56,6 @@ const InvoicePage = () => {
 
       await allInvoices()
         .then(({ data }) => {
-          console.log(data)
           if (data)
             stateStore.setValue(
               'dataTable',
@@ -67,8 +69,7 @@ const InvoicePage = () => {
 
   const props = {
     columns,
-    stateStore,
-    dataForm
+    stateStore
   }
 
   return <Invoice {...props} />
